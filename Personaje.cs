@@ -1,6 +1,6 @@
 namespace PersonajeSpace
 {
-    class Personaje
+    public class Personaje
     {
         private string? nombre;
         private string? apodo;
@@ -41,5 +41,14 @@ namespace PersonajeSpace
             edad = age;
         }
 
+        public int Ataque()
+        {
+            return Destreza * Fuerza * Nivel;
+        }
+
+        public int Defensa()
+        {
+            return Armadura * Velocidad;
+        }
     }
 }
