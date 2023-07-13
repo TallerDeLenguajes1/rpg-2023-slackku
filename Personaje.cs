@@ -5,7 +5,8 @@ namespace PersonajeSpace
         private string? nombre;
         private string? apodo;
         private string? raza;
-        private DateTime fecNac;
+        private string? region;
+        private int[]? fecNac;
         private int edad;
         private int vel;
         private int des;
@@ -18,7 +19,8 @@ namespace PersonajeSpace
         public string Raza { set => raza = value; get => raza!; }
         public string Nombre { set => nombre = value; get => nombre!; }
         public string Apodo { set => apodo = value; get => apodo!; }
-        public DateTime FecNac { set => fecNac = value; get => fecNac; }
+        public string Region { set => region = value; get => region!; }
+        public int[] FecNac { set => fecNac = value; get => fecNac!; }
         public int Edad { set => edad = value; get => edad; }
 
         public int Velocidad { set => vel = value; get => vel; } // 0-10
@@ -32,7 +34,7 @@ namespace PersonajeSpace
         {
         }
 
-        public Personaje(string raz, string name, string nick, DateTime fecN, int age)
+        public Personaje(string raz, string name, string nick, int[] fecN, int age)
         {
             raza = raz;
             nombre = name;
