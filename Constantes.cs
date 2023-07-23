@@ -97,5 +97,7 @@ namespace PersonajeSpace
 
         public static int[] posibleAwardsHP = { 10, 5, 7, 11, 25, 20 };
 
+        public static string urlApiRequest = "https://www.boredapi.com/api/activity?type=recreational&participants=1";
+
     }
 }
