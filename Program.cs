@@ -16,7 +16,6 @@ namespace PersonajeSpace
 
                 while (listaPersonajes.Count < 10 /*Cantidad de Personajes*/)
                 {
-                    Console.WriteLine("Hola");
                     Personaje personaje = personajeFactory.getPersonaje(); // Se aplica filtro que permite que nombres y apodos no sean repetidos
                     if (listaPersonajes.Find(personajeInLista => personajeInLista.Nombre.Equals(personaje.Nombre) || personajeInLista.Apodo.Equals(personaje.Apodo)) == null)
                     {
@@ -32,12 +31,9 @@ namespace PersonajeSpace
             {
                 listaPersonajes = personajeJson.LeerLista();
             }
-            GameInterface.mostrarJuego();
+            GameInterface.mostrarInicio();
 
             GameInterface.showPersonajes(listaPersonajes);
-
-            Console.Write((new Personaje()).Equals(new Personaje()));
-            Console.Write((new Personaje()).Equals(null));
 
             List<List<Personaje>> fighBracketsFirst = organizarFightBrackets(listaPersonajes, new Personaje());
 
