@@ -1,4 +1,6 @@
 
+using System.Net;
+using System.Text.Json;
 using PersonajeSpace;
 using Spectre.Console;
 namespace UserInterface
@@ -25,10 +27,11 @@ namespace UserInterface
         }
 
 
-        public static void mostrarJuego()
+        public static void mostrarInicio()
         {
             mostrarImagen("./pixelArts/LeagueLogo.png", 0);
             mostrarTexto("DEADMATCH", Justify.Center, Color.Red3);
+            Thread.Sleep(2000);
         }
         // Genera la tabla de un personaje dado
         private static Table generarTablePersonaje(Personaje personaje, TypeTable typeTable)
@@ -200,6 +203,7 @@ namespace UserInterface
         {
             List<Layout> listaRows = generarLayoutRows(listaPersonajes);
             listaRows.ForEach(row => AnsiConsole.Write(row));
+            Thread.Sleep(1000);
         }
 
         // Muestreo de los personajes participantes del matchup
@@ -288,13 +292,13 @@ namespace UserInterface
             table.AddEmptyRow();
             table.AddRow(
                 new Markup(
-                    $"[underline aqua]DAMAGE RATIO:[/][slowblink aqua]{((int)damageRatio)}[/]"
+                    $"[underline aqua]DAMAGE RATIO:[/] [slowblink aqua]{((int)damageRatio)}[/]"
                 ).Centered()
             );
             table.AddEmptyRow();
             table.AddRow(
                 new Markup(
-                    $"[bold lime]LVL: +{bonus[0]}[/] [bold lime]HP: +{bonus[1]}[/]"
+                    $"[bold lime]+{bonus[0]}LVL[/] [bold lime] +{bonus[1]}HP[/]"
                 ).Centered()
             );
 
@@ -322,10 +326,47 @@ namespace UserInterface
 
             // Add an api request to that api that gets random activities
             // for showing a random win text.
+            Root activityApi = apiRequest();
 
+            Markup mUp = new Markup(
+                "Being the last one standing, the champion was thirsty for new emotions," + 
+                "when suddenly in his mind a voice told him: \'" +
+                $"{activityApi.activity}\', and so the champ did."
+            );
+
+            AnsiConsole.Write(new Align(mUp,HorizontalAlignment.Center,VerticalAlignment.Middle));
             AnsiConsole.Write(winnersLayout);
         }
 
+        private static Root apiRequest()
+        {
+            var request = (HttpWebRequest)WebRequest.Create(Constantes.urlApiRequest);
+            request.Method = "GET";
+            request.ContentType = "application/json";
+            request.Accept = "application/json";
+
+            try
+            {
+                using (WebResponse response = request.GetResponse())
+                {
+                    using (Stream strReader = response.GetResponseStream())
+                    {
+                        if (strReader == null) return new Root();
+                        using (StreamReader objReader = new StreamReader(strReader))
+                        {
+                            string responseBody = objReader.ReadToEnd();
+                            Root apiObject = JsonSerializer.Deserialize<Root>(responseBody);
+                            return apiObject!;
+                        }
+                    }
+                }
+            }
+            catch (WebException ex)
+            {
+                Console.WriteLine("{0}",ex.Message);
+                return new Root();
+            }
+        }
     }
     public enum TypeTable
     {
